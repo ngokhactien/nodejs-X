@@ -1,0 +1,50 @@
+extends ../layouts/common.pug
+
+block content
+    h1 
+      span.mr-3 Product
+    .d-flex.align-item-center
+      form.ml-auto(action="" method="GET" class="d-flex" )
+        input(type="text", name="q" ,  class="form-control " )
+        button(class="btn btn-outline-warning ml-2") search
+
+    //- each product in products   
+    //-   .card(style='width: 18rem;')
+    //-     img.card-img-top(src= product.image, alt='Card image cap')
+    //-     .card-body 
+    //-       h5.card-title= product.name
+    //-       p.card-text= product.description
+    //-       a.btn.btn-primary(href='#') Add to Cart
+    .nav(aria-label='Page navigation example')
+      ul.pagination
+        li.page-item
+          a.page-link(href='http://localhost:3000/products?page='+ (pages - 1 )) Previous
+        li.page-item
+          a.page-link(href='http://localhost:3000/products?page=1') 1
+        li.page-item
+          a.page-link(href='http://localhost:3000/products?page=2') 2
+        li.page-item
+          a.page-link(href='http://localhost:3000/products?page=3') 3
+        li.page-item
+          a.page-link(href='http://localhost:3000/products?page=4') 4
+        li.page-item
+          a.page-link(href='http://localhost:3000/products?page='+ (pages + 1)) Next
+
+    .row 
+      each product in products  
+        .col-sm-6.col-md.col-lg-3   
+          .card.mb-3  
+            img.card-img-top(src=product.image)
+            .card-body
+              h5.card-title= product.n  
+              p.card-text=product.description
+              a.btn.btn-primary(href='/cart/add/' + product.id) Add to Cart
+
+
+
+
+
+
+
+
+

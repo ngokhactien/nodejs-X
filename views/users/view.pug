@@ -1,0 +1,13 @@
+extends ../layouts/common.pug
+
+block content
+    h1(class="text-danger") View user
+
+    p 
+        b(class="text-warning ml-4") Name : 
+        span(class="text-info")= user.name
+        
+    p
+        b(class="text-warning ml-4") Avatar :  
+        img(src=user.avatar, width="54", height="50px" , style=" border-radius:50%; ")
+    a(href="/users" style=" text-decoration: none" class="ml-3") befor
