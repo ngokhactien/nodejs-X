@@ -8,12 +8,11 @@ module.exports.login = function(req , res){
     // });
 }
 
-module.exports.postLogin = function(req , res){
-    var email = req.body.email ;
-    var password = req.body.password ;
-
-    var user = db.get('users').find({email: email}).value();
-    //var user = User.find({email: email});
+module.exports.postLogin = async (req , res) => {
+    const { email, password } = req.body ;
+    const md5password = md5(password);
+    const user = await db.get('users').find({email}).value();
+    // qua dai dong -->
     if(!user){
         res.render('auth/login', {
             errors :[
@@ -22,8 +21,7 @@ module.exports.postLogin = function(req , res){
             values: req.body
         });
         return;
-    }
-    var md5password = md5(password);
+    };
     if(user.password !== md5password ){
         res.render('auth/login', {
             errors   :[
@@ -37,4 +35,5 @@ module.exports.postLogin = function(req , res){
         signed : true
     })
     res.redirect('/users')
+    //<---
 }

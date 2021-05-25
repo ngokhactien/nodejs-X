@@ -1,7 +1,8 @@
 "use strict";
 
 // const  db = require('../db');
-var Product = require('../models/product.models');
+var Product = require('../models/product.models'); //phan trang du dung khi tao cau query trong databse su dung query.limit 
+
 
 module.exports.index = function _callee(req, res, next) {
   var page, perPage, pages, start, end, products;

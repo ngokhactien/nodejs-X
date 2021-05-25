@@ -1,6 +1,7 @@
 // const  db = require('../db');
 const  Product = require('../models/product.models');
 
+//phan trang du dung khi tao cau query trong databse su dung query.limit 
 module.exports.index = async function(req , res, next){
     var page = parseInt(req.query.page) || 1 ;  // n
     var perPage = 8 ; // x

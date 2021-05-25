@@ -1,8 +1,5 @@
-// const  db = require('../db');
-const  User = require('../models/user.models');
-//id
 const shortid = require('shortid');
-const { response } = require('express');
+const  User = require('../models/user.models');
 
 module.exports.index = function(req , res){
     // res.render('users/index' , {
@@ -16,8 +13,9 @@ module.exports.index = function(req , res){
 };
 
 module.exports.search = function(req , res){
-    var q = req.query.q;
-    var match =  db.get('users').value().filter(function(user){
+    var {q} = req.query;
+    // ko dung promise va xu dung ham callback xu ly lai nhu cai duoi 
+    var match =  db.get('users').value().filter(/* chinh la no */function(user){
         return user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
     });
     res.render('users/index', {
@@ -30,29 +28,22 @@ module.exports.create = function(req , res){
     res.render('users/create');
 } ;
 
+// neu params chi nhận một tham sốthifi ko cần t biến để gắn đỡ tốn bộ nhớ 
+//code good là như thế
 module.exports.get = async function(req, res) {
-    var id =req.params.id;
-    // console.log( typeof id );
-    // var user = db.get('users').find({id: id }).value()  ;
-    // res.render('users/view', {
-    //     user :user
-    // });
-    var users = await User.find({id: id });
-    console.log(users);
+    const users = await User.find({id: req.params.id });
     res.render('users/view', {
         user :users
     })
 };
 
-module.exports.postCreate = function(req , res){
-    req.body.id = shortid.generate();
-    // req.body.avatar = req.file.path    để xem đường dẫn gì     // bài 22 nodejs
-    // req.body.avatar = req.file.path.split('/').slice(1).join('/') ;  gốc 
-    
-    req.body.avatar = req.file.path.split('\\').slice(1).join('/') ;
-    
-    // db.get('users').push(req.body).write();    // lấy giá trị vửa nhập đẩy vào  list users  
-    // db.get('view').push(req.body).write();
-    User.find().push(req.body);
+// cais nay tao anh mo database xem nao
+module.exports.postCreate = async function(req , res){
+    const data = {
+        id : shortid.generate(),
+        avatar: req.file.path.split('\\').slice(1).join('/') 
+    };
+    const result = await User.find().push(data);
+    if( !result ) throw Error;
     res.redirect('/users');
 };

@@ -1,6 +1,7 @@
 const db = require('../db')
 
-module.exports.addToCart = function(req , res , next ){
+// viet ham xu ly promise cho moi controller  = async await , khong xu dung "var" ton  bo nho khi run on server
+module.exports.addToCart = function(req , res  ){
     var productId = req.params.productId;
     var sessionId = req.signedCookies.sessionId ;
     
@@ -14,6 +15,7 @@ module.exports.addToCart = function(req , res , next ){
     .get('cart.' + productId, 0)
     .value();
 
+    // ?? cai
     db.get('sessions')
     .find({id : sessionId })
     .set('cart.'+ productId , count + 1)
